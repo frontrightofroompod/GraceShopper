@@ -29,8 +29,8 @@ export const fetchBeers = () => {
 
 export const removeBeerFromServer = beerId => {
   return async dispatch => {
-    const toRemove = await axios.delete(`/api/beers/${beerId}`)
-    dispatch(removeBeer(toRemove.data))
+    await axios.delete(`/api/beers/${beerId}`)
+    dispatch(removeBeer(beerId))
   }
 }
 
