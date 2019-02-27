@@ -3,7 +3,7 @@ import {connect} from 'react-redux'
 import {Card, Button, Container, Row, Col, Image} from 'react-bootstrap'
 import {fetchSingleBeer} from '../store/singleBeer'
 
-export class SingleBeer extends React.Component {
+class SingleBeer extends React.Component {
   componentDidMount() {
     const id = parseInt(this.props.match.params.beerId, 10)
     this.props.fetchOneBeer(id)
@@ -27,19 +27,34 @@ export class SingleBeer extends React.Component {
             </Col>
           </Row>
         </Container>
+        <br />
+        <div>
+          <h4 className="center">Reviews for {beer.title}</h4>
+        </div>
         <Container>
           <Row>
-            {beer.reviews.map(review => (
-              <Col key={review.id}>
-                <Card>
-                  <Card.Text>
-                    Review: {review.content}
-                    <br />
-                    Rating: {review.rating}
-                  </Card.Text>
+            {beer.reviews.length ? (
+              beer.reviews.map(review => (
+                <Col key={review.id} xs={12} sm={6}>
+                  <Card>
+                    <Card.Body>
+                      <Card.Text>
+                        {review.content}
+                        <br />
+                        Rating: {review.rating}
+                      </Card.Text>
+                    </Card.Body>
+                  </Card>
+                  <br />
+                </Col>
+              ))
+            ) : (
+              <Col xs={12}>
+                <Card border="light">
+                  <Card.Text className="center">No reviews yet</Card.Text>
                 </Card>
               </Col>
-            ))}
+            )}
           </Row>
         </Container>
       </div>
@@ -63,4 +78,4 @@ const dispatchProps = dispatch => {
   }
 }
 
-export default connect(mapState, dispatchProps)(SingleBeer)
+export const ConnectedSingleBeer = connect(mapState, dispatchProps)(SingleBeer)
