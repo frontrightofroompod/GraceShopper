@@ -7,7 +7,7 @@ const SET_USERS = 'SET_USERS'
 
 //ACTION CREATORS
 
-export const fetchUsers = users => {
+export const setUsers = users => {
   return {type: SET_USERS, users}
 }
 
@@ -16,7 +16,7 @@ export const fetchUsers = users => {
 export const fetchUsers = () => {
   return async function(dispatch) {
     const response = await axios.get('/api/users')
-    constuserrs = response.data
+    const users = response.data
     dispatch(setUsers(users))
   }
 }
