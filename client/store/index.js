@@ -6,8 +6,17 @@ import user from './user'
 import {users} from './allUsers'
 import {singleBeer} from './singleBeer'
 import {beers} from './allbeers'
+import {currentUser} from './currentUser'
+import {categories} from './categories'
 
-const reducer = combineReducers({user, users, singleBeer, beers})
+const reducer = combineReducers({
+  user,
+  users,
+  singleBeer,
+  beers,
+  categories,
+  currentUser
+})
 
 const middleware = composeWithDevTools(
   applyMiddleware(thunkMiddleware, createLogger({collapsed: true}))
