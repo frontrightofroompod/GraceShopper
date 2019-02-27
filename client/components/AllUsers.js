@@ -3,9 +3,10 @@ import Axios from 'axios'
 import {withRouter} from 'react-router'
 import {connect} from 'react-redux'
 import {Container, Card, Button, Row, Col, Form} from 'react-bootstrap'
-import {fetchUsers} from '../store/allusers'
+import {fetchUsers} from '../store/allUsers'
+import {Link} from 'react-router-dom'
 
-export class AllUsers extends Component {
+class AllUsers extends Component {
   constructor(props) {
     super(props)
   }
@@ -25,14 +26,20 @@ export class AllUsers extends Component {
                     <Card style={{width: '18rem'}}>
                       <Card.Img variant="top" src={user.imgURL} />
                       <Card.Body>
-                        <Card.Title><Link to={`/users/${user.id}`}>{user.firstName} {user.lastName}
-                        </Link></Card.Title><br/>
-                        <Card.Text>{user.phoneNumber}</Card.Text><br/>
-                        <Card.Text>{user.userType}</Card.Text><br/>
-                        <Card.Text>{user.email}</Card.Text><br/>
-                        <Card.Text>{user.googleId}</Card.Text><br/>
+                        <Card.Title>
+                          {user.firstName} {user.lastName}
+                        </Card.Title>
+                        <br />
+                        <Card.Text>{user.phoneNumber}</Card.Text>
+                        <br />
+                        <Card.Text>{user.userType}</Card.Text>
+                        <br />
+                        <Card.Text>{user.email}</Card.Text>
+                        <br />
+                        <Card.Text>{user.googleId}</Card.Text>
+                        <br />
                       </Card.Body>
-                    </Card>{' '}
+                    </Card>
                   </Col>
                 ))
               : 'No Users!'}
@@ -48,3 +55,13 @@ const mapStateToProps = state => {
     users: state.users
   }
 }
+
+const mapDispatchToProps = dispatch => {
+  return {
+    fetchUsersFromServer: () => dispatch(fetchUsers())
+  }
+}
+
+export const ConnectedAllUsers = connect(mapStateToProps, mapDispatchToProps)(
+  AllUsers
+)
