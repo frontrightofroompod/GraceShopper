@@ -8,7 +8,8 @@ import {
   UserHome,
   ConnectedAllUsers,
   ConnectedAllBeers,
-  ConnectedSingleBeer
+  ConnectedSingleBeer,
+  EditBeerForm
 } from './components'
 
 import {me} from './store'
@@ -32,13 +33,14 @@ class Routes extends Component {
         <Route path="/signup" component={Signup} />
         <Route exact path="/beers" component={ConnectedAllBeers} />
         <Route exact path="/users" component={ConnectedAllUsers} />
-        <Route path="/beers/:beerId" component={ConnectedSingleBeer} />
+        <Route exact path="/beers/:beerId" component={ConnectedSingleBeer} />
         {isLoggedIn && (
           <Switch>
             {/* Routes placed here are only available after logging in */}
             <Route path="/home" component={UserHome} />
             {isAdmin && (
               <Switch>
+                <Route path="/beers/:beerId/edit" component={EditBeerForm} />
                 {/* Routes placed here are only available after logging in */}
               </Switch>
             )},
