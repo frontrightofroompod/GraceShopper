@@ -5,22 +5,50 @@ import {connect} from 'react-redux'
 import {Container, Card, Button, Row, Col, Form} from 'react-bootstrap'
 import {fetchBeers, removeBeerFromServer} from '../store/allbeers'
 import {fetchCurrentUser} from '../store/currentUser'
+import {fetchCategories} from '../store/categories'
 
 class AllBeers extends Component {
   constructor(props) {
     super(props)
-    this.state = {}
+    this.state = {
+      currentSearch: ''
+    }
+    this.handleChange = this.handleChange.bind(this)
+    this.handleSubmit = this.handleSubmit.bind(this)
+  }
+
+  handleChange(event) {
+    this.setState({currentSearch: event.target.value})
+  }
+
+  handleSubmit(event) {
+    event.preventDefault()
+    this.props.fetchBeersFromServer(`tag=${this.state.currentSearch}`)
   }
 
   componentDidMount() {
     this.props.fetchBeersFromServer()
     this.props.setUser()
+    this.props.fetchCategoriesFromServer()
   }
 
   render() {
     const {currentUser, deleteBeer, user} = this.props
     return (
       <div>
+        <h4>Search by category:</h4>
+        <form onSubmit={this.handleSubmit}>
+          <select onChange={this.handleChange}>
+            {this.props.categories ? (
+              this.props.categories.map(category => (
+                <option value={category.tag}> {category.tag}</option>
+              ))
+            ) : (
+              <option value="none">No categories loaded</option>
+            )}
+          </select>
+          <input type="submit" value="submit" />
+        </form>
         <Container>
           <Row>
             {this.props.beers
@@ -52,7 +80,7 @@ class AllBeers extends Component {
                           ''
                         )}
                       </Card.Body>
-                    </Card>{' '}
+                    </Card>
                   </Col>
                 ))
               : 'No Beers!'}
@@ -67,15 +95,17 @@ const mapStateToProps = state => {
   return {
     beers: state.beers,
     currentUser: state.currentUser,
-    user: state.user
+    user: state.user,
+    categories: state.categories
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
-    fetchBeersFromServer: () => dispatch(fetchBeers()),
     deleteBeer: id => dispatch(removeBeerFromServer(id)),
-    setUser: () => dispatch(fetchCurrentUser())
+    setUser: () => dispatch(fetchCurrentUser()),
+    fetchBeersFromServer: (search = '') => dispatch(fetchBeers(search)),
+    fetchCategoriesFromServer: () => dispatch(fetchCategories())
   }
 }
 
