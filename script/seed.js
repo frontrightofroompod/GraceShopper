@@ -15,29 +15,11 @@ async function seed() {
   console.log('db synced!')
 
   const users = await Promise.all([
-    User.create({
-      firstName: 'Cody',
-      lastName: 'Da Man',
-      email: 'cody@email.com',
-      password: '123',
-      userType: 'admin'
-    }),
-    User.create({
-      firstName: 'Murphy',
-      lastName: 'Not Da man',
-      email: 'murphy@email.com',
-      password: '123',
-      userType: 'auth'
-    }),
-    User.create({
-      firstName: 'Big Steve',
-      lastName: 'Boss',
-      email: 'auth@email.com',
-      password: '123',
-      userType: 'auth'
-    })
+    User.create({email: 'cody@email.com', password: '123', userType: 'admin'}),
+    User.create({email: 'murphy@email.com', password: '123'}),
+    User.create({email: 'test@email.com', password: '123'})
   ])
-
+  const usersArray = await User.findAll()
   const images = await Promise.all([
     Image.create({
       imageUrl: 'https://robohash.org/Beer'
@@ -146,6 +128,8 @@ async function seed() {
     })
   ])
 
+  const beersArray = await Beer.findAll()
+
   const breweries = await Promise.all([
     Brewery.create({
       name: '3 Floyds',
@@ -208,7 +192,7 @@ async function seed() {
       url: 'https://www.greatlakesbrewing.com/'
     })
   ])
-
+  const breweriesArray = await Brewery.findAll()
   const reviews = await Promise.all([
     Review.create({
       content: 'Overpriced',
@@ -231,7 +215,7 @@ async function seed() {
       rating: 1
     })
   ])
-
+  const reviewsArray = await Review.findAll()
   const tags = await Promise.all([
     Category.create({
       tag: 'hoppy'
@@ -258,12 +242,7 @@ async function seed() {
       tag: 'drinkable'
     })
   ])
-
-  const beersArray = await Beer.findAll()
-  const breweriesArray = await Brewery.findAll()
-  const reviewsArray = await Review.findAll()
   const tagsArray = await Category.findAll()
-  const usersArray = await User.findAll()
 
   //SETTING BEERS WITH BREWERY
   //space station
