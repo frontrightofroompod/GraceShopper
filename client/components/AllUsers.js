@@ -21,10 +21,10 @@ class AllUsers extends Component {
           <Row>
             {users
               ? users.map(user => (
-                  <Col key={user.id}>
+                  <Col key={user.id} xs={12} sm={4}>
                     <Card>
                       <Row>
-                        <Col xs={4}>
+                        <Col xs={3}>
                           <Link to={`users/${user.id}`}>
                             <Card.Img
                               className="cardImg"
@@ -33,16 +33,12 @@ class AllUsers extends Component {
                             />
                           </Link>
                         </Col>
-                        <Col xs={8}>
+                        <Col xs={9}>
                           <Card.Body>
                             <Card.Title>
                               {user.firstName} {user.lastName}
                             </Card.Title>
-                            <Card.Text>
-                              {user.email}
-                              <br />
-                              {user.userType}
-                            </Card.Text>
+                            <Card.Text>{user.userType}</Card.Text>
                           </Card.Body>
                         </Col>
                       </Row>
