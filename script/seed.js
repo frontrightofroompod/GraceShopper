@@ -7,7 +7,8 @@ const {
   Review,
   Image,
   Category,
-  Brewery
+  Brewery,
+  CategoryBeer
 } = require('../server/db/models')
 
 async function seed() {
@@ -54,46 +55,51 @@ async function seed() {
 
   const tagsArray = await Category.findAll()
 
-  //SETTING BEERS WITH BREWERY
+  const categoryBeer = require('../mock_category_beer.json')
+  const catBeer = await CategoryBeer.bulkCreate(categoryBeer)
 
-  let promises1 = []
-  let promises2 = []
-  let promises3 = []
-  let promises4 = []
+  const catBeerArray = await CategoryBeer.findAll()
 
-  //SETTING TAGS W BEERS
-  let randomNumOfBeers
-  let randomBeer
+  // //SETTING BEERS WITH BREWERY
 
-  for (let i = 0; i < 1000; i++) {
-    randomNumOfBeers = Math.floor(Math.random() * 50)
-    randomBeer = Math.floor(Math.random() * 998)
-    promises1.push(beersArray[i].setBrewery(breweriesArray[randomBeer]))
+  // let promises1 = []
+  // let promises2 = []
+  // let promises3 = []
+  // let promises4 = []
 
-    for (let j = 0; j < randomNumOfBeers; j++) {
-      const ToF = Math.random() >= 0.5
-      if (ToF) promises4.push(tagsArray[i].addBeer(beersArray[randomBeer]))
+  // //SETTING TAGS W BEERS
+  // let randomNumOfBeers
+  // let randomBeer
 
-      randomBeer++
-    }
-  }
+  // for (let i = 0; i < 1000; i++) {
+  //   randomNumOfBeers = Math.floor(Math.random() * 50)
+  //   randomBeer = Math.floor(Math.random() * 998)
+  //   promises1.push(beersArray[i].setBrewery(breweriesArray[randomBeer]))
 
-  await Promise.all(promises1)
+  //   for (let j = 0; j < randomNumOfBeers; j++) {
+  //     const ToF = Math.random() >= 0.5
+  //     if (ToF) promises4.push(tagsArray[i].addBeer(beersArray[randomBeer]))
 
-  for (let i = 0; i < 1000; i++) {
-    randomNumOfBeers = Math.floor(Math.random() * 50)
-    randomBeer = Math.floor(Math.random() * 998)
-    promises2.push(reviewsArray[i].setBeer(beersArray[randomBeer]))
-  }
-  await Promise.all(promises2)
+  //     randomBeer++
+  //   }
+  // }
 
-  for (let i = 0; i < 1000; i++) {
-    randomNumOfBeers = Math.floor(Math.random() * 50)
-    randomBeer = Math.floor(Math.random() * 998)
-    promises3.push(usersArray[randomBeer].addReview(reviewsArray[i]))
-  }
-  await Promise.all(promises3)
-  await Promise.all(promises4)
+  // await Promise.all(promises1)
+
+  // for (let i = 0; i < 1000; i++) {
+  //   randomNumOfBeers = Math.floor(Math.random() * 50)
+  //   randomBeer = Math.floor(Math.random() * 998)
+  //   promises2.push(reviewsArray[i].setBeer(beersArray[randomBeer]))
+  // }
+  // await Promise.all(promises2)
+
+  // for (let i = 0; i < 1000; i++) {
+  //   randomNumOfBeers = Math.floor(Math.random() * 50)
+  //   randomBeer = Math.floor(Math.random() * 998)
+  //   promises3.push(usersArray[randomBeer].addReview(reviewsArray[i]))
+  // }
+  // await Promise.all(promises3)
+  // await Promise.all(promises4)
 
   // //space station
   // await beersArray[0].setBrewery(breweriesArray[1])
@@ -170,6 +176,7 @@ async function seed() {
   console.log(`seeded ${tagsArray.length} tags`)
   console.log(`seeded ${usersArray.length} users`)
   console.log(`seeded ${beersArray.length} beers`)
+  console.log(`seeded ${catBeerArray.length} category associations with beers`)
   console.log(`seeded successfully`)
 }
 
