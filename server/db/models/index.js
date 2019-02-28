@@ -49,11 +49,6 @@ Beer.hasMany(Image)
 Image.belongsTo(Beer)
 
 module.exports = {
-<<<<<<< HEAD
-  User,
-  Beer,
-  Review
-=======
   db,
   User,
   Brewery,
@@ -63,5 +58,4 @@ module.exports = {
   Beer,
   Review,
   OrderItem
->>>>>>> 3ff15be235da5c35d9c72f444f63bc7c6ddcf24b
 }
