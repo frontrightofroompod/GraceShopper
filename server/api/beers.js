@@ -52,7 +52,6 @@ const isLoggedIn = (req, res, next) => {
 }
 
 const isAdmin = (req, res, next) => {
-  console.log('User:')
   if (req.user.userType === 'admin') {
     next()
   } else {
@@ -134,17 +133,8 @@ router.post('/', isAdmin, async (req, res, next) => {
     })
     // if the brewery didn't exist
     if (!breweryToBeAssigned) {
-      const sanitizedNameArr = req.body.brewery.split(' ')
-      console.log(sanitizedNameArr)
-      let sanitizedName = ''
-      sanitizedNameArr.forEach(word => {
-        console.log(word)
-        sanitizedName +=
-          word[0].toUpperCase() + word.slice(1, word.length).toLowerCase() + ' '
-        sanitizedName.trim(' ')
-      })
       const newBrewery = await Brewery.create({
-        name: sanitizedName
+        name: req.body.brewery
       })
       newBeer.setBrewery(newBrewery.id)
     } else {
