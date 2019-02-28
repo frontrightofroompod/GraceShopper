@@ -18,18 +18,7 @@ const Beer = db.define('beer', {
   abv: {type: Sequelize.FLOAT},
   ibu: {type: Sequelize.INTEGER},
   type: {
-    type: Sequelize.ENUM(
-      'Pilsner',
-      'Lager',
-      'Bock',
-      'Stout',
-      'IPA',
-      'Wheat',
-      'Red Ale',
-      'Amber Ale',
-      'Hefeweizen',
-      'Lambic'
-    )
+    type: Sequelize.STRING
   },
   imgURL: {
     type: Sequelize.STRING,
