@@ -5,61 +5,6 @@ const Op = Sequelize.Op
 module.exports = router
 
 //CREATE BEER
-router.post('/', async (req, res, next) => {
-  try {
-    //Create new beer
-    const newBeer = await Beer.create({
-      title: req.body.title,
-      description: req.body.description,
-      price: req.body.price,
-      inventory: req.body.inventory,
-      abv: req.body.abv,
-      ibu: req.body.ibu,
-      type: req.body.type
-    })
-    //Assign tags to the newly created beer
-    const tagsArr = req.body.tags.split(' ')
-    let tagToBeAssigned
-
-    tagsArr.forEach(async tag => {
-      tag = tag.toLowerCase()
-      tagToBeAssigned = await Category.findOrCreate({
-        where: {
-          tag: tag
-        }
-      })
-      newBeer.addCategory(tagToBeAssigned[0].id)
-    })
-
-    //Assign brewery to the newly created beer
-    const breweryToBeAssigned = await Brewery.findOne({
-      where: {
-        name: {[Op.iLike]: `${req.body.brewery}`}
-      }
-    })
-    // if the brewery didn't exist
-    if (!breweryToBeAssigned) {
-      const sanitizedNameArr = req.body.brewery.split(' ')
-      let sanitizedName = ''
-      sanitizedNameArr.forEach(word => {
-        console.log(word)
-        sanitizedName +=
-          word[0].toUpperCase() + word.slice(1, word.length).toLowerCase() + ' '
-        sanitizedName.trim(' ')
-      })
-      const newBrewery = await Brewery.create({
-        name: sanitizedName
-      })
-      newBeer.setBrewery(newBrewery.id)
-    } else {
-      newBeer.setBrewery(breweryToBeAssigned.id)
-    }
-
-    res.status(201).json(newBeer)
-  } catch (error) {
-    next(error)
-  }
-})
 
 router.get('/', async (req, res, next) => {
   try {
@@ -87,7 +32,7 @@ router.get('/search', async (req, res, next) => {
 router.get('/:beerId', async (req, res, next) => {
   try {
     const beer = await Beer.findById(req.params.beerId, {
-      include: [Review, Category]
+      include: [{model: Review, include: [User]}, Category]
     })
     !beer ? res.sendStatus(500) : res.json(beer)
   } catch (error) {
@@ -150,6 +95,63 @@ router.post(`/:beerId/review`, isLoggedIn, async (req, res, next) => {
     await beer.addReview(review)
     await user.addReview(review)
     res.status(201).json(beer)
+  } catch (error) {
+    next(error)
+  }
+})
+
+router.post('/', isAdmin, async (req, res, next) => {
+  try {
+    //Create new beer
+    const newBeer = await Beer.create({
+      title: req.body.title,
+      description: req.body.description,
+      price: req.body.price,
+      inventory: req.body.inventory,
+      abv: req.body.abv,
+      ibu: req.body.ibu,
+      type: req.body.type
+    })
+    //Assign tags to the newly created beer
+    const tagsArr = req.body.tags.split(' ')
+    let tagToBeAssigned
+
+    tagsArr.forEach(async tag => {
+      tag = tag.toLowerCase()
+      tagToBeAssigned = await Category.findOrCreate({
+        where: {
+          tag: tag
+        }
+      })
+      newBeer.addCategory(tagToBeAssigned[0].id)
+    })
+
+    //Assign brewery to the newly created beer
+    const breweryToBeAssigned = await Brewery.findOne({
+      where: {
+        name: {[Op.iLike]: `${req.body.brewery}`}
+      }
+    })
+    // if the brewery didn't exist
+    if (!breweryToBeAssigned) {
+      const sanitizedNameArr = req.body.brewery.split(' ')
+      console.log(sanitizedNameArr)
+      let sanitizedName = ''
+      sanitizedNameArr.forEach(word => {
+        console.log(word)
+        sanitizedName +=
+          word[0].toUpperCase() + word.slice(1, word.length).toLowerCase() + ' '
+        sanitizedName.trim(' ')
+      })
+      const newBrewery = await Brewery.create({
+        name: sanitizedName
+      })
+      newBeer.setBrewery(newBrewery.id)
+    } else {
+      newBeer.setBrewery(breweryToBeAssigned.id)
+    }
+
+    res.status(201).json(newBeer)
   } catch (error) {
     next(error)
   }
