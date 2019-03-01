@@ -12,8 +12,10 @@ import {
   ConnectedAddBeer,
   EditBeerForm,
   ConnectedNewReview,
-  ConnectedAllOrders,
   ConnectedSingleUser,
+  Landing,
+  ConnectedCart,
+  ConnectedAllOrders,
   ConnectedSingleOrder
 } from './components'
 
@@ -34,6 +36,7 @@ class Routes extends Component {
     return (
       <Switch>
         {/* Routes placed here are available to all visitors */}
+        <Route exact path="/" component={Landing} />
         <Route path="/login" component={Login} />
         <Route path="/signup" component={Signup} />
         <Route
@@ -43,6 +46,7 @@ class Routes extends Component {
         />
         <Route exact path="/users" component={ConnectedAllUsers} />
         <Route exact path="/beers/:beerId" component={ConnectedSingleBeer} />
+        <Route path="/cart" component={ConnectedCart} />
         <Route exact path="/orders" component={ConnectedAllOrders} />
         {isLoggedIn && (
           <Switch>
