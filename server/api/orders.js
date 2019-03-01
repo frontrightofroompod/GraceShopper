@@ -31,16 +31,15 @@ const isAdmin = (req, res, next) => {
   }
 }
 
-//ADMIN ROUTES
-
-// router.get('/', isLoggedIn, isAdmin, async (req, res, next) => {
-//   try {
-//     const allOrders = await Order.findAll()
-//     res.json(allOrders)
-//   } catch (error) {
-//     next(error)
-//   }
-// })
+//GET SINGLE ORDER
+router.get('/:id', async (req, res, next) => {
+  try {
+    const singleOrder = await Order.findById(req.params.id)
+    res.status(200).json(singleOrder)
+  } catch (error) {
+    next(error)
+  }
+})
 
 //GET ORDERS
 router.get('/', isLoggedIn, async (req, res, next) => {
