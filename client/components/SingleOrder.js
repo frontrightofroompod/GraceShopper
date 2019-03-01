@@ -57,10 +57,12 @@ class SingleOrder extends React.Component {
                 </Button>
                 <br />
                 <Button
-                  onClick={onMarkOneOrderAsCompleted({
-                    id: singleOrder.id,
-                    status: 'completed'
-                  })}
+                  onClick={() =>
+                    onMarkOneOrderAsCompleted({
+                      id: singleOrder.id,
+                      status: 'completed'
+                    })
+                  }
                 >
                   Mark as Completed
                 </Button>
