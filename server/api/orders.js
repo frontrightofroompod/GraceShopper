@@ -31,6 +31,20 @@ const isAdmin = (req, res, next) => {
   }
 }
 
+router.put('/:id', async (req, res, next) => {
+  try {
+    const updatedOrder = await Order.update(
+      {
+        status: req.body.status
+      },
+      {where: {id: req.params.id}}
+    )
+    res.json(updatedOrder)
+  } catch (error) {
+    next(error)
+  }
+})
+
 //GET SINGLE ORDER
 router.get('/:id', async (req, res, next) => {
   try {

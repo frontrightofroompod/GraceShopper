@@ -1,24 +1,31 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {fetchAllOrders} from '../store/allOrders'
+import {
+  fetchAllOrders,
+  showPendingOrders,
+  showCompletedOrders,
+  markOrderAsCompleted,
+  markOrderAsProcessing
+} from '../store/allOrders'
 import {Link} from 'react-router-dom'
 import {Container, Card, Button, Row, Col, Form} from 'react-bootstrap'
 
 class AllOrders extends Component {
-  constructor(props) {
-    super(props)
-  }
-
   componentDidMount() {
     this.props.fetchOrdersFromServer()
   }
 
   render() {
-    const {allOrders} = this.props
-    console.log(this.props.allOrders)
+    const {allOrders, onShowPendingOrders, fetchOrdersFromServer} = this.props
     return (
       <div>
         <Container>
+          <Button onClick={onShowPendingOrders}> Show Pending Orders </Button>
+          <br />
+          <br />
+          <Button onClick={fetchOrdersFromServer}> All Orders </Button>
+          <br />
+          <br />
           <Row>
             {allOrders && allOrders.length !== 0 ? (
               allOrders.map(order => (
@@ -77,7 +84,9 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    fetchOrdersFromServer: () => dispatch(fetchAllOrders())
+    fetchOrdersFromServer: () => dispatch(fetchAllOrders()),
+    onShowPendingOrders: () => dispatch(showPendingOrders()),
+    onShowCompletedOrders: () => dispatch(showCompletedOrders())
   }
 }
 

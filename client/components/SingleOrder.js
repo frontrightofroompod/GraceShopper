@@ -1,7 +1,11 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import {Card, Button, Container, Row, Col, Image} from 'react-bootstrap'
-import {fetchSingleOrder} from '../store/singleOrder'
+import {
+  fetchSingleOrder,
+  markOneOrderAsCompleted,
+  markOneOrderAsProcessing
+} from '../store/singleOrder'
 
 class SingleOrder extends React.Component {
   componentDidMount() {
@@ -9,8 +13,12 @@ class SingleOrder extends React.Component {
     this.props.fetchSingleOrder(id)
   }
   render() {
-    const {singleOrder} = this.props
-    console.log('SINGLE ORDER', singleOrder)
+    const {
+      singleOrder,
+      onMarkOneOrderAsProcessing,
+      onMarkOneOrderAsCompleted
+    } = this.props
+
     return (
       <div>
         <Container>
@@ -37,6 +45,25 @@ class SingleOrder extends React.Component {
                     <br />
                   </Card.Text>
                 </Card.Body>
+                <Button
+                  onClick={() =>
+                    onMarkOneOrderAsProcessing({
+                      id: singleOrder.id,
+                      status: 'processing'
+                    })
+                  }
+                >
+                  Mark as Processing
+                </Button>
+                <br />
+                <Button
+                  onClick={onMarkOneOrderAsCompleted({
+                    id: singleOrder.id,
+                    status: 'completed'
+                  })}
+                >
+                  Mark as Completed
+                </Button>
               </Card>
             </Col>
           </Row>
@@ -54,7 +81,10 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    fetchSingleOrder: id => dispatch(fetchSingleOrder(id))
+    fetchSingleOrder: id => dispatch(fetchSingleOrder(id)),
+    onMarkOneOrderAsProcessing: order =>
+      dispatch(markOneOrderAsProcessing(order)),
+    onMarkOneOrderAsCompleted: order => dispatch(markOneOrderAsCompleted(order))
   }
 }
 
