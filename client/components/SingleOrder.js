@@ -36,7 +36,7 @@ class SingleOrder extends React.Component {
                       <br />
                       Street Address: {singleOrder.streetAddress}
                       <br />
-                      Zip: {singleOrder.city}
+                      City: {singleOrder.city}
                       <br />
                       Zip: {singleOrder.zipCode}
                       <br />
@@ -50,6 +50,11 @@ class SingleOrder extends React.Component {
                     onClick={() =>
                       onMarkOneOrderAsProcessing({
                         id: singleOrder.id,
+                        phoneNumber: singleOrder.phoneNumber,
+                        streetAddress: singleOrder.streetAddress,
+                        city: singleOrder.city,
+                        zipCode: singleOrder.zipCode,
+                        state: singleOrder.state,
                         status: 'processing'
                       })
                     }
@@ -61,6 +66,11 @@ class SingleOrder extends React.Component {
                     onClick={() =>
                       onMarkOneOrderAsCompleted({
                         id: singleOrder.id,
+                        phoneNumber: singleOrder.phoneNumber,
+                        streetAddress: singleOrder.streetAddress,
+                        city: singleOrder.city,
+                        zipCode: singleOrder.zipCode,
+                        state: singleOrder.state,
                         status: 'completed'
                       })
                     }

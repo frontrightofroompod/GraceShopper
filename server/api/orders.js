@@ -31,14 +31,12 @@ const isAdmin = (req, res, next) => {
   }
 }
 
+//UPDATE ORDER
 router.put('/:id', async (req, res, next) => {
   try {
-    const updatedOrder = await Order.update(
-      {
-        status: req.body.status
-      },
-      {where: {id: req.params.id}}
-    )
+    const updatedOrder = await Order.update(req.body, {
+      where: {id: req.params.id}
+    })
     res.json(updatedOrder)
   } catch (error) {
     next(error)
