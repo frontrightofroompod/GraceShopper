@@ -4,7 +4,7 @@ import {Container, Card, Button, Row, Col} from 'react-bootstrap'
 import {fetchUsers} from '../store/allUsers'
 import {fetchCurrentUser} from '../store/currentUser'
 import {Link} from 'react-router-dom'
-import {deleteUser} from '../store/user'
+import {deleteUserFromServer} from '../store/allUsers'
 
 class AllUsers extends Component {
   constructor(props) {
@@ -17,8 +17,7 @@ class AllUsers extends Component {
   }
 
   render() {
-    const {users, current} = this.props
-    console.log(this.props)
+    const {users, current, removeUser} = this.props
     return (
       <div>
         <Container>
@@ -89,7 +88,7 @@ const mapDispatchToProps = dispatch => {
   return {
     fetchUsersFromServer: () => dispatch(fetchUsers()),
     fetchCurrent: () => dispatch(fetchCurrentUser()),
-    removeUser: id => dispatch(deleteUser(id))
+    removeUser: id => dispatch(deleteUserFromServer(id))
   }
 }
 

@@ -31,14 +31,6 @@ export const me = () => async dispatch => {
   }
 }
 
-export const deleteUser = id => async dispatch => {
-  try {
-    const user = await axios.delete(`/api/users/${id}`)
-    dispatch(removeUser(user.data))
-  } catch (error) {
-    Next(error)
-  }
-}
 export const auth = (email, password, method) => async dispatch => {
   let res
   try {
