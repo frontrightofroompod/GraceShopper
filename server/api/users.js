@@ -22,3 +22,17 @@ router.get('/:id', async (req, res, next) => {
     next(error)
   }
 })
+
+router.delete('/:id', async (req, res, next) => {
+  try {
+    const user = await User.findById(req.params.id)
+    if (!user) {
+      res.sendStatus(500)
+    } else {
+      await user.destroy()
+      res.json(user)
+    }
+  } catch (error) {
+    next(error)
+  }
+})

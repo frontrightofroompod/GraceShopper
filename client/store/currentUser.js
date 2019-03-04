@@ -11,7 +11,7 @@ export const setCurrentUser = user => {
 
 export const fetchCurrentUser = () => {
   return async dispatch => {
-    const currentUser = await axios.get('/auth/index/me')
+    const currentUser = await axios.get('/auth/me')
     dispatch(setCurrentUser(currentUser.data))
   }
 }
