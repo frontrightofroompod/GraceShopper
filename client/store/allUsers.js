@@ -40,7 +40,7 @@ export const users = (state = initialState, action) => {
     case SET_USERS:
       return action.users
     case DELETE_USER:
-      return state.filter(user => user.id !== action.user.id)
+      return [...state].filter(user => user.id !== action.user.id)
     default:
       return state
   }

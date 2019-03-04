@@ -10,6 +10,7 @@ class SingleUser extends React.Component {
   }
   render() {
     const {user} = this.props
+    console.log(user)
     return user ? (
       <div>
         <Container>
@@ -32,7 +33,7 @@ class SingleUser extends React.Component {
             </Col>
             <Col xs={12} sm={8}>
               <h3>Reviews by: {user.firstName}</h3>
-              {user && user.id ? (
+              {user.reviews && user.reviews.length ? (
                 user.reviews.map(review => (
                   <Card key={review.id} className="review">
                     <Card.Body>
