@@ -37,3 +37,18 @@ router.delete('/:id', isAdmin, async (req, res, next) => {
     next(error)
   }
 })
+
+router.put(`/:id`, async (req, res, next) => {
+  console.log(req.body)
+  try {
+    const user = await User.findById(req.params.id)
+    if (!user) {
+      res.sendStatus(500)
+    } else {
+      await user.update(req.body)
+      res.json(user)
+    }
+  } catch (error) {
+    next(error)
+  }
+})

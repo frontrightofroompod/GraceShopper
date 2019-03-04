@@ -160,3 +160,7 @@ form div {
   width: 25px !important;
   font-size: 10px;
 }
+
+.md-field {
+  width: 100px !important;
+}
