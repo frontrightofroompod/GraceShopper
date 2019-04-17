@@ -166,12 +166,12 @@ class AllBeers extends Component {
             {this.props.beers && this.props.beers.inventory !== 0
               ? this.props.beers.map(
                   beer =>
-                    beer.inventory !== 0 ? (
+                    beer.inventory > 0 ? (
                       <Col key={beer.id} xs={12} sm={6} md={4} lg={3}>
                         <Card>
                           <Link to={`/beers/${beer.id}`} className="center">
                             <Card.Img
-                              className="thumbNai"
+                              className="thumbNail"
                               variant="top"
                               src={beer.imgURL}
                             />
@@ -181,9 +181,9 @@ class AllBeers extends Component {
                               {beer.title}
                             </Card.Title>
                             <Card.Text className="small-text">
-                              abv: {beer.abv + '%'}
+                              abv: {beer.abv.toFixed(2) + '%'}
                               <br />
-                              {'$' + beer.price}
+                              {'$' + beer.price.toFixed(2)}
                             </Card.Text>
 
                             <Button
